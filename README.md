@@ -35,7 +35,7 @@ open docs/setup_guide.md
 Then follow `docs/how_to_run_a_benchmark.md` for your first complete run.
 
 An example completed run lives in
-`runs/2025-07-15_qwen2.5-coder-14b_opencode_mlx_01/` — read it before your
+`runs/2025-07-15_gemma4-27b_opencode_mlx_01/` — read it before your
 first run to understand what "done" looks like.
 
 ---
@@ -176,12 +176,12 @@ Run directories follow: `YYYY-MM-DD_<model>_<harness>_<provider>_<project_id>`
 
 | Field | Examples |
 |-------|---------|
-| Model | `qwen2.5-coder-14b`, `llama3.3-70b`, `deepseek-coder-v2-lite` |
+| Model | `gemma4-27b`, `llama3.3-70b`, `gemma4-27b` |
 | Harness | `opencode`, `claudecode`, `codex` |
 | Provider | `mlx`, `llamacpp`, `lmstudio` |
 | Project ID | `01`, `02`, … `12` |
 
-Example: `2025-09-01_qwen2.5-coder-14b_opencode_mlx_04`
+Example: `2025-09-01_gemma4-27b_opencode_mlx_04`
 
 ---
 

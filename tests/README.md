@@ -12,7 +12,7 @@ pip install pytest pandas biopython
 
 ```bash
 # Test a specific run's output
-pytest tests/ --output-dir runs/2025-07-01_qwen2.5-coder-32b_opencode_mlx_01/output/ -v
+pytest tests/ --output-dir runs/2025-07-01_gemma4-27b_opencode_mlx_01/output/ -v
 
 # Run all tests for a project
 pytest tests/test_snp_matrix.py -v

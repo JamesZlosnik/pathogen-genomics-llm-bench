@@ -51,16 +51,16 @@ Also add one row to `scoring/scorecard_template.csv` with your run's scores.
 `YYYY-MM-DD_<model>_<harness>_<provider>_<project_id>`
 
 Examples:
-- `2025-09-01_qwen2.5-coder-32b_opencode_mlx_01`
+- `2025-09-01_gemma4-27b_opencode_mlx_01`
 - `2025-09-01_llama3.3-70b_claudecode_llamacpp_04`
 
 Use lowercase, hyphens only, no spaces. Model names should include parameter count
-and any relevant variant (e.g. `qwen2.5-coder-14b` not just `qwen`).
+and any relevant variant (e.g. `gemma4-27b` not just `gemma4`).
 
 ### Run metadata requirements
 
 Your `session_log.md` must record:
-- Exact model name and quantization (e.g. `Qwen2.5-Coder-14B-Instruct-Q4_K_M`)
+- Exact model name and quantization (e.g. `Gemma4-27B-Instruct-Q4_K_M`)
 - Provider and version or commit hash (for llama.cpp, include the git commit)
 - Harness version
 - Temperature and any other non-default generation parameters

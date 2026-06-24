@@ -70,8 +70,8 @@ but struggle with complex DSL2 and multi-step integration tasks.
   ```bash
   pip install huggingface_hub
   huggingface-cli download \
-    bartowski/Qwen2.5-Coder-14B-Instruct-GGUF \
-    --include "Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf" \
+    bartowski/gemma-4-27b-it-GGUF \
+    --include "gemma-4-27b-it-Q4_K_M.gguf" \
     --local-dir ~/models/
   ```
 - **mlx-community** — pre-converted MLX models at `huggingface.co/mlx-community`.
@@ -110,7 +110,7 @@ whichever one is running by pointing at its base URL. You only need one running 
 - Open LM Studio → Discover tab → search for your model → Download
 - Or use the `lms` CLI (run `lms bootstrap` once after first launch to register it):
   ```bash
-  lms get qwen2.5-coder-14b-instruct
+  lms get gemma4-27b-it
   lms ls  # list installed models
   ```
 
@@ -118,7 +118,7 @@ whichever one is running by pointing at its base URL. You only need one running 
 - GUI: Developer tab → toggle Status to Running
 - CLI:
   ```bash
-  lms load qwen2.5-coder-14b-instruct
+  lms load gemma4-27b-it
   lms server start --port 1234
   ```
 - Verify: `curl http://localhost:1234/v1/models`
@@ -162,7 +162,7 @@ ls build/bin/
 **Start the server:**
 ```bash
 ./build/bin/llama-server \
-  -m ~/models/Qwen2.5-Coder-14B-Instruct-Q4_K_M.gguf \
+  -m ~/models/gemma-4-27b-it-Q4_K_M.gguf \
   --host 127.0.0.1 \
   --port 8080 \
   -c 32768 \
@@ -208,14 +208,14 @@ uv pip install mlx-lm
 
 **Download an MLX model:**
 ```bash
-huggingface-cli download mlx-community/Qwen2.5-Coder-14B-Instruct-4bit \
-  --local-dir ~/models/mlx/qwen2.5-coder-14b-4bit
+huggingface-cli download mlx-community/gemma-4-27b-it-4bit \
+  --local-dir ~/models/mlx/gemma4-27b-4bit
 ```
 
 **Start the server:**
 ```bash
 python -m mlx_lm.server \
-  --model mlx-community/Qwen2.5-Coder-14B-Instruct-4bit \
+  --model mlx-community/gemma-4-27b-it-4bit \
   --host 127.0.0.1 \
   --port 8080 \
   --max-tokens 32768   # IMPORTANT: default is 512, too short for coding tasks
@@ -282,8 +282,8 @@ brew install opencode
         "baseURL": "http://127.0.0.1:8080/v1"
       },
       "models": {
-        "qwen2.5-coder-14b": {
-          "name": "Qwen2.5-Coder-14B"
+        "gemma4-27b": {
+          "name": "Gemma4-27B"
         }
       }
     }
@@ -297,7 +297,7 @@ llama.cpp / mlx-lm). The model ID must match the `id` returned by
 
 **Launch:**
 ```bash
-opencode --provider local --model qwen2.5-coder-14b
+opencode --provider local --model gemma4-27b
 ```
 
 ---
@@ -319,7 +319,7 @@ brew install codex
 provider = "openai"
 base_url = "http://127.0.0.1:8080/v1"
 api_key = "not-needed"
-model = "qwen2.5-coder-14b"
+model = "gemma4-27b"
 requires_openai_auth = false
 model_context_window = 32768
 ```
@@ -374,10 +374,10 @@ agentic harness use. All available in both GGUF and MLX format.
 
 | Model | Params | Min RAM | Strengths | HF ID (GGUF) |
 |-------|--------|---------|-----------|--------------|
-| Qwen2.5-Coder-14B-Instruct | 14B | 16 GB | Code quality, Nextflow | `bartowski/Qwen2.5-Coder-14B-Instruct-GGUF` |
-| Qwen2.5-Coder-32B-Instruct | 32B | 32 GB | Best local code model | `bartowski/Qwen2.5-Coder-32B-Instruct-GGUF` |
-| DeepSeek-Coder-V2-Lite-Instruct | 16B | 16 GB | Strong on bioinformatics logic | `bartowski/DeepSeek-Coder-V2-Lite-Instruct-GGUF` |
-| Llama-3.3-70B-Instruct | 70B | 64 GB | General instruction quality | `bartowski/Llama-3.3-70B-Instruct-GGUF` |
+| Gemma4-27B-Instruct | 27B | 24 GB | Strong general coding and instruction following | `bartowski/gemma-4-27b-it-GGUF` |
+| Llama-3.3-70B-Instruct | 70B | 64 GB | Best overall quality at high RAM | `bartowski/Llama-3.3-70B-Instruct-GGUF` |
+| Mistral-Small-3.2-24B | 24B | 24 GB | Strong coding, efficient at 24B | `bartowski/Mistral-Small-3.2-24B-Instruct-GGUF` |
+| Phi-4-reasoning | 14B | 16 GB | Strong reasoning at smaller size | `bartowski/phi-4-reasoning-GGUF` |
 
 Use `Q4_K_M` quantization as the standard for comparability.
 
@@ -397,7 +397,7 @@ curl -s http://localhost:8080/v1/models | python3 -m json.tool
 curl -s http://localhost:8080/v1/chat/completions \
   -H "Content-Type: application/json" \
   -d '{
-    "model": "qwen2.5-coder-14b",
+    "model": "gemma4-27b",
     "messages": [{"role": "user", "content": "What is the MLST scheme for E. coli?"}],
     "max_tokens": 200
   }' | python3 -m json.tool
@@ -405,7 +405,7 @@ curl -s http://localhost:8080/v1/chat/completions \
 # 3. Harness connects (Claude Code example)
 ANTHROPIC_BASE_URL=http://localhost:8080 \
 ANTHROPIC_AUTH_TOKEN=not-needed \
-claude --model qwen2.5-coder-14b --print "What is samtools depth -a?"
+claude --model gemma4-27b --print "What is samtools depth -a?"
 
 # 4. Record model identity — ask the model what it is
 # A model that misidentifies itself is a config problem, not a model quality issue

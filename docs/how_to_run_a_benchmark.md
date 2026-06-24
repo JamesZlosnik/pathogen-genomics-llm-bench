@@ -60,7 +60,7 @@ This produces `tests/fixtures/` with:
 Before running anything, spend 5 minutes reading through the example run:
 
 ```
-runs/2025-07-15_qwen2.5-coder-14b_opencode_mlx_01/
+runs/2025-07-15_gemma4-27b_opencode_mlx_01/
 ├── session_log.md   ← read this first
 ├── evaluation.md
 └── output/snp_distance.py
@@ -92,11 +92,11 @@ Refer to `docs/setup_guide.md` for installation. For a first run, a sensible def
 
 | Component | Recommendation |
 |-----------|---------------|
-| Model | Qwen2.5-Coder-14B-Instruct Q4_K_M |
+| Model | Gemma4-27B-Instruct Q4_K_M |
 | Provider | mlx-lm (Apple Silicon) or llama.cpp (any platform) |
 | Harness | OpenCode or Claude Code |
 
-If you are on Apple Silicon with ≥16 GB RAM, mlx-lm + Qwen2.5-Coder-14B is a
+If you are on Apple Silicon with ≥16 GB RAM, mlx-lm + Gemma4-27B is a
 good starting point.
 
 ### 2c. Decide: PROMPT.md or PROMPT_nogrill.md?
@@ -113,11 +113,11 @@ doesn't support interactive planning, or when you want a controlled single-pass 
 
 ```bash
 # Convention: YYYY-MM-DD_<model>_<harness>_<provider>_<project_id>
-mkdir -p runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08/output
+mkdir -p runs/2025-09-01_gemma4-27b_opencode_mlx_08/output
 
 # Copy the session log template
 cp runs/session_log_template.md \
-   runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08/session_log.md
+   runs/2025-09-01_gemma4-27b_opencode_mlx_08/session_log.md
 ```
 
 Fill in the **Run Metadata** table in `session_log.md` before you start (model name,
@@ -135,7 +135,7 @@ clean working directory for this run and copy in the fixture data the project ne
 
 ```bash
 # Example for project 08 (FASTA parser)
-cd runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08
+cd runs/2025-09-01_gemma4-27b_opencode_mlx_08
 
 mkdir -p data results
 
@@ -171,7 +171,7 @@ cp ../../AGENTS.md .
 ```bash
 # mlx-lm example
 python -m mlx_lm.server \
-  --model mlx-community/Qwen2.5-Coder-14B-Instruct-4bit \
+  --model mlx-community/gemma-4-27b-it-4bit \
   --port 8080 \
   --max-tokens 32768
 
@@ -185,8 +185,8 @@ Open a new terminal in your run working directory. Launch the harness:
 
 ```bash
 # OpenCode example
-cd runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08
-opencode --provider local --model qwen2.5-coder-14b
+cd runs/2025-09-01_gemma4-27b_opencode_mlx_08
+opencode --provider local --model gemma4-27b
 ```
 
 Then paste the prompt from `projects/08_fasta_parser/PROMPT.md` — **verbatim**.
@@ -234,7 +234,7 @@ the fixture input data.
 
 ```bash
 # Example for project 08
-cd runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08
+cd runs/2025-09-01_gemma4-27b_opencode_mlx_08
 
 python output/fasta_stats.py \
   --input data/sequences.fasta \
@@ -249,7 +249,7 @@ If the script crashes or produces no output, record the error in Section 4 of
 ```bash
 # From the repo root
 pytest tests/test_snp_matrix.py \
-  --output-dir runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08/output/ \
+  --output-dir runs/2025-09-01_gemma4-27b_opencode_mlx_08/output/ \
   -v
 ```
 
@@ -327,11 +327,11 @@ If you want to contribute your run to the repo:
 
 ```bash
 # From the repo root
-git checkout -b run/2025-09-01-qwen-opencode-mlx-08
-git add runs/2025-09-01_qwen2.5-coder-14b_opencode_mlx_08/
+git checkout -b run/2025-09-01-gemma4-opencode-mlx-08
+git add runs/2025-09-01_gemma4-27b_opencode_mlx_08/
 git add scoring/scorecard_template.csv
-git commit -m "Add run: qwen2.5-coder-14b / opencode / mlx / project 08"
-git push origin run/2025-09-01-qwen-opencode-mlx-08
+git commit -m "Add run: gemma4-27b / opencode / mlx / project 08"
+git push origin run/2025-09-01-gemma4-opencode-mlx-08
 # Open a pull request
 ```
 
