@@ -1,0 +1,96 @@
+# --- Run outputs ---
+# Exclude large generated files from runs; keep logs and scores
+runs/*/output/*.fastq.gz
+runs/*/output/*.bam
+runs/*/output/*.bai
+runs/*/output/*.vcf.gz
+runs/*/output/*.vcf.gz.tbi
+runs/*/output/*.fasta
+runs/*/output/*.fa
+
+# Keep markdown logs, scores, and small TSV/CSV outputs
+!runs/*/session_log.md
+!runs/*/evaluation.md
+!runs/*/output/*.tsv
+!runs/*/output/*.csv
+!runs/*/output/*.txt
+!runs/*/output/*.html
+!runs/*/output/*.pdf
+!runs/*/output/*.png
+
+# --- Test fixtures ---
+# Exclude large fixture files; synthetic small files are fine to commit
+tests/fixtures/**/*.fastq.gz
+tests/fixtures/**/*.bam
+tests/fixtures/**/*.bai
+tests/fixtures/**/*.fasta
+tests/fixtures/**/*.fa
+tests/fixtures/**/*.vcf.gz
+
+# Keep small reference fixtures
+!tests/fixtures/**/*.vcf
+!tests/fixtures/**/*.tsv
+!tests/fixtures/**/*.csv
+!tests/fixtures/**/*.nwk
+!tests/fixtures/**/*.txt
+
+# --- Model weights and caches ---
+models/*.gguf
+models/*.bin
+models/*.safetensors
+models/*.ggml
+*.gguf
+*.ggml
+*.safetensors
+
+# --- Provider server logs and caches ---
+providers/**/*.log
+providers/**/cache/
+.cache/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyo
+.pytest_cache/
+.mypy_cache/
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+env/
+
+# --- R ---
+.Rhistory
+.RData
+.Rproj.user/
+*.Rproj
+
+# --- Nextflow ---
+.nextflow/
+.nextflow.log*
+work/
+results/
+trace-*.txt
+report-*.html
+timeline-*.html
+dag-*.html
+dag-*.dot
+
+# --- Conda ---
+*.conda
+pkgs/
+
+# --- OS ---
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# --- Editor ---
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
