@@ -1,2 +1,2 @@
 date,model,quantization,harness,harness_version,provider,provider_version,project_id,prompt_version,correctness,code_quality,domain_appropriateness,completeness,autonomous_execution,total,tests_passed,tests_total,test_pct,time_minutes,notes
-2025-07-15,gemma4-27b,Q4_K_M,opencode,1.4.2,mlx,0.22.1,01,PROMPT.md v1.0,4,4,4,3,3,18,9,9,100,8,Example reference run — fabricated
+2025-07-15,gemma4-27b,Q4_K_M,opencode,1.4.2,mlx,0.22.1,08,PROMPT.md v1.0,4,4,4,3,3,18,9,9,100,8,Example reference run — fabricated

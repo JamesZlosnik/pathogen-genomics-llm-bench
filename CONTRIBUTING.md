@@ -52,7 +52,7 @@ Also add one row to `scoring/scorecard_template.csv` with your run's scores.
 
 Examples:
 - `2025-09-01_gemma4-27b_opencode_mlx_01`
-- `2025-09-01_llama3.3-70b_claudecode_llamacpp_04`
+- `2025-09-01_llama3.3-70b_claudecode_llamacpp_12`
 
 Use lowercase, hyphens only, no spaces. Model names should include parameter count
 and any relevant variant (e.g. `gemma4-27b` not just `gemma4`).

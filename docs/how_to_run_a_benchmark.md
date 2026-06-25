@@ -60,7 +60,7 @@ This produces `tests/fixtures/` with:
 Before running anything, spend 5 minutes reading through the example run:
 
 ```
-runs/2025-07-15_gemma4-27b_opencode_mlx_01/
+runs/2025-07-15_gemma4-27b_opencode_mlx_08/
 ├── session_log.md   ← read this first
 ├── evaluation.md
 └── output/snp_distance.py
@@ -75,13 +75,13 @@ planning phase and grill questions look like in practice.
 
 ### 2a. Choose a project
 
-If this is your first run, start with **Project 08** (FASTA parser) or **Project 09**
+If this is your first run, start with **Project 01** (FASTA parser) or **Project 02**
 (TSV reformatter) — Tier 1 tasks that any competent model should pass. This lets you
 validate your setup before investing time in harder projects.
 
 Read the project brief:
 ```bash
-cat projects/08_fasta_parser/PROMPT.md
+cat projects/01_fasta_parser/PROMPT.md
 ```
 
 See `projects/README.md` for the full list and difficulty tiers.
@@ -113,11 +113,11 @@ doesn't support interactive planning, or when you want a controlled single-pass 
 
 ```bash
 # Convention: YYYY-MM-DD_<model>_<harness>_<provider>_<project_id>
-mkdir -p runs/2025-09-01_gemma4-27b_opencode_mlx_08/output
+mkdir -p runs/2025-09-01_gemma4-27b_opencode_mlx_01/output
 
 # Copy the session log template
 cp runs/session_log_template.md \
-   runs/2025-09-01_gemma4-27b_opencode_mlx_08/session_log.md
+   runs/2025-09-01_gemma4-27b_opencode_mlx_01/session_log.md
 ```
 
 Fill in the **Run Metadata** table in `session_log.md` before you start (model name,
@@ -134,8 +134,8 @@ The model will write files relative to wherever you launch the harness. Create a
 clean working directory for this run and copy in the fixture data the project needs:
 
 ```bash
-# Example for project 08 (FASTA parser)
-cd runs/2025-09-01_gemma4-27b_opencode_mlx_08
+# Example for project 01 (FASTA parser)
+cd runs/2025-09-01_gemma4-27b_opencode_mlx_01
 
 mkdir -p data results
 
@@ -185,11 +185,11 @@ Open a new terminal in your run working directory. Launch the harness:
 
 ```bash
 # OpenCode example
-cd runs/2025-09-01_gemma4-27b_opencode_mlx_08
+cd runs/2025-09-01_gemma4-27b_opencode_mlx_01
 opencode --provider local --model gemma4-27b
 ```
 
-Then paste the prompt from `projects/08_fasta_parser/PROMPT.md` — **verbatim**.
+Then paste the prompt from `projects/01_fasta_parser/PROMPT.md` — **verbatim**.
 Do not paraphrase or add context.
 
 ### 3e. Handle the planning and grill phase
@@ -233,8 +233,8 @@ the fixture input data.
 ### 4a. Run the model's script against fixture data
 
 ```bash
-# Example for project 08
-cd runs/2025-09-01_gemma4-27b_opencode_mlx_08
+# Example for project 01
+cd runs/2025-09-01_gemma4-27b_opencode_mlx_01
 
 python output/fasta_stats.py \
   --input data/sequences.fasta \
@@ -249,7 +249,7 @@ If the script crashes or produces no output, record the error in Section 4 of
 ```bash
 # From the repo root
 pytest tests/test_snp_matrix.py \
-  --output-dir runs/2025-09-01_gemma4-27b_opencode_mlx_08/output/ \
+  --output-dir runs/2025-09-01_gemma4-27b_opencode_mlx_01/output/ \
   -v
 ```
 
@@ -328,9 +328,9 @@ If you want to contribute your run to the repo:
 ```bash
 # From the repo root
 git checkout -b run/2025-09-01-gemma4-opencode-mlx-08
-git add runs/2025-09-01_gemma4-27b_opencode_mlx_08/
+git add runs/2025-09-01_gemma4-27b_opencode_mlx_01/
 git add scoring/scorecard_template.csv
-git commit -m "Add run: gemma4-27b / opencode / mlx / project 08"
+git commit -m "Add run: gemma4-27b / opencode / mlx / project 01"
 git push origin run/2025-09-01-gemma4-opencode-mlx-08
 # Open a pull request
 ```
@@ -344,18 +344,18 @@ and what to exclude (no patient data, no real sample IDs, no files >10 MB).
 
 | Project | Input files needed | Fixture source |
 |---------|-------------------|----------------|
-| 01 SNP distance matrix | `data/samples.vcf.gz`, `data/samples.txt` | `tests/fixtures/vcf/`, `tests/fixtures/samples.txt` |
-| 02 AMR gene parser | `data/amrfinder/<sample>_amrfinder.tsv`, `data/samples.txt` | `tests/fixtures/amrfinder/`, `tests/fixtures/samples.txt` |
-| 03 Outbreak cluster report | `data/snp_distance_matrix.csv`, `data/metadata.csv`, `data/tree.nwk` | `tests/fixtures/expected/snp_distance_matrix.csv` + hand-craft metadata/tree |
-| 04 Nextflow QC pipeline | paired FASTQ files | `tests/fixtures/fastq/` (single-end; adapt for paired) |
-| 05 MLST batch typer | `data/assemblies/<sample>.fa`, `data/samples.txt` | `tests/fixtures/assemblies/`, `tests/fixtures/samples.txt` |
-| 06 Phylo + metadata viz | `data/tree.nwk`, `data/metadata.csv` | hand-craft or use a public toy dataset |
-| 07 Sequence QC filter | `data/reads.fastq.gz` | `tests/fixtures/fastq/reads.fastq.gz` |
-| 08 FASTA parser | `data/sequences.fasta` | `tests/fixtures/assemblies/SAMPLE-001.fasta` |
-| 09 TSV reformatter | `data/wide_table.tsv` | `tests/fixtures/mlst/wide_table.tsv` |
-| 10 Assembly stats | `data/assemblies/<sample>.fasta`, `data/samples.txt` | `tests/fixtures/assemblies/`, `tests/fixtures/samples.txt` |
-| 11 Coverage depth | `data/depth/<sample>.depth.tsv`, `data/samples.txt` | `tests/fixtures/depth/`, `tests/fixtures/samples.txt` |
-| 12 VCF annotation parser | `data/annotated.vcf.gz` | not yet generated — use a public SnpEff-annotated VCF |
+| 01 FASTA parser | `data/sequences.fasta` | `tests/fixtures/assemblies/SAMPLE-001.fasta` |
+| 02 TSV reformatter | `data/wide_table.tsv` | `tests/fixtures/mlst/wide_table.tsv` |
+| 03 Sequence QC filter | `data/reads.fastq.gz` | `tests/fixtures/fastq/reads.fastq.gz` |
+| 04 Assembly stats | `data/assemblies/<sample>.fasta`, `data/samples.txt` | `tests/fixtures/assemblies/`, `tests/fixtures/samples.txt` |
+| 05 Coverage depth | `data/depth/<sample>.depth.tsv`, `data/samples.txt` | `tests/fixtures/depth/`, `tests/fixtures/samples.txt` |
+| 06 AMR gene parser | `data/amrfinder/<sample>_amrfinder.tsv`, `data/samples.txt` | `tests/fixtures/amrfinder/`, `tests/fixtures/samples.txt` |
+| 07 MLST batch typer | `data/assemblies/<sample>.fa`, `data/samples.txt` | `tests/fixtures/assemblies/`, `tests/fixtures/samples.txt` |
+| 08 SNP distance matrix | `data/samples.vcf.gz`, `data/samples.txt` | `tests/fixtures/vcf/`, `tests/fixtures/samples.txt` |
+| 09 VCF annotation parser | `data/annotated.vcf.gz` | not yet generated — use a public SnpEff-annotated VCF |
+| 10 Phylo + metadata viz | `data/tree.nwk`, `data/metadata.csv` | hand-craft or use a public toy dataset |
+| 11 Outbreak cluster report | `data/snp_distance_matrix.csv`, `data/metadata.csv`, `data/tree.nwk` | `tests/fixtures/expected/snp_distance_matrix.csv` + hand-craft metadata/tree |
+| 12 Nextflow QC pipeline | paired FASTQ files | `tests/fixtures/fastq/` (single-end; adapt for paired) |
 
 > Projects 03, 06, and 12 require input data not yet fully covered by the fixture
 > generator. See each project's `PROMPT.md` for input format specifications and

@@ -11,18 +11,18 @@ Usage:
 
 Outputs (relative to --outdir):
     samples.txt                          — shared sample list
-    vcf/samples.vcf.gz                   — multi-sample VCF  (project 01)
+    vcf/samples.vcf.gz                   — multi-sample VCF  (project 08)
     expected/snp_distance_matrix.csv     — ground-truth SNP matrix
     expected/putative_transmission_pairs.csv
-    amrfinder/                           — per-sample AMRFinderPlus TSVs (project 02)
+    amrfinder/                           — per-sample AMRFinderPlus TSVs (project 06)
     expected/amr_summary.tsv
     expected/amr_long.tsv
-    fastq/reads.fastq.gz                 — synthetic FASTQ (project 07)
+    fastq/reads.fastq.gz                 — synthetic FASTQ (project 03)
     expected/qc_filter_summary.txt
     assemblies/                          — FASTA assemblies (projects 08, 10)
     expected/sequence_stats.tsv
     expected/assembly_stats.tsv
-    mlst/wide_table.tsv                  — wide MLST table (project 09)
+    mlst/wide_table.tsv                  — wide MLST table (project 02)
     expected/long_table.tsv
     expected/sample_summary.tsv
     depth/                               — samtools depth -a style files (project 11)
@@ -567,7 +567,7 @@ def write_fasta_fixtures(outdir: Path, rng: random.Random):
         writer.writerows(ground_truth)
     log.info(f"Wrote {asm_stats_path}")
 
-    # Write ground-truth sequence stats (project 08 — single FASTA, use SAMPLE-001)
+    # Write ground-truth sequence stats (project 01 — single FASTA, use SAMPLE-001)
     sample_01_path = asm_dir / "SAMPLE-001.fasta"
     seq_stats_path = exp_dir / "sequence_stats.tsv"
     from Bio import SeqIO  # type: ignore
