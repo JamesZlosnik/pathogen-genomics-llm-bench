@@ -57,8 +57,8 @@ first run to understand what "done" looks like.
                   ════════════
 
   A─T  ░░░░░  01 02             TIER 1 · floor
-  G─C  ▒▒▒▒▒  03 04 05 06 07     TIER 2 · core
-  T─A  ▓▓▓▓▓  08 09 10          TIER 3 · advanced
+  G─C  ▒▒▒▒▒  03 04 05 06 07   TIER 2 · core
+  T─A  ▓▓▓▓▓  08 09 10         TIER 3 · advanced
   C─G  █████  11 12             TIER 4 · expert
 
   model × harness × provider  →  score / 20
@@ -66,110 +66,25 @@ first run to understand what "done" looks like.
 
 ---
 
-## Diagrams
-
-### Benchmark workflow
-
-```mermaid
-flowchart TD
-    A([📋 PROMPT.md\ncanonicalprompt]) --> B[Harness\nOpenCode · Claude Code · Codex]
-    B --> C{Planning\nphase?}
-    C -- yes --> D[Record plan\n+ grill exchange\nin session_log.md]
-    C -- no / nogrill --> E
-    D --> E[Model executes\nand writes output/]
-    E --> F[Copy fixture data\nto data/]
-    F --> G[Run model script\nagainst fixture]
-    G --> H[pytest tests/\n--output-dir output/]
-    H --> I{All tests\npass?}
-    I -- yes --> J[Score on\n5 dimensions]
-    I -- no --> J
-    J --> K[(scorecard_template.csv)]
-    K --> L([Pull request\nto repo])
-
-    style A fill:#E1F5EE,stroke:#0F6E56,color:#085041
-    style L fill:#E1F5EE,stroke:#0F6E56,color:#085041
-    style H fill:#E6F1FB,stroke:#185FA5,color:#0C447C
-    style K fill:#EEEDFE,stroke:#534AB7,color:#3C3489
-```
-
-### Project difficulty tiers
+## Benchmark workflow
 
 ```mermaid
 flowchart LR
-    subgraph T1["⬜ Tier 1 — Floor"]
-        direction TB
-        P01["01\nFASTA parser"]
-        P02["02\nTSV reformatter"]
-    end
-    subgraph T2["🟦 Tier 2 — Core"]
-        direction TB
-        P03["03\nQC filter"]
-        P04["04\nAssembly stats"]
-        P05["05\nDepth summary"]
-        P06["06\nAMR parser"]
-        P07["07\nMLST typer"]
-    end
-    subgraph T3["🟪 Tier 3 — Advanced"]
-        direction TB
-        P08["08\nSNP distance"]
-        P09["09\nVCF annotation"]
-        P10["10\nPhylo viz"]
-    end
-    subgraph T4["⬛ Tier 4 — Expert"]
-        direction TB
-        P11["11\nOutbreak report"]
-        P12["12\nNextflow pipeline"]
-    end
+    A([PROMPT.md]) --> B[Harness]
+    B --> C{Plan?}
+    C -- yes --> D[session_log.md]
+    C -- nogrill --> E
+    D --> E[output/]
+    E --> F[pytest
+--output-dir]
+    F --> G[Score
+/20]
+    G --> H[(scorecard
+.csv)]
 
-    T1 --> T2 --> T3 --> T4
-
-    style T1 fill:#F1EFE8,stroke:#888780,color:#444441
-    style T2 fill:#E6F1FB,stroke:#185FA5,color:#0C447C
-    style T3 fill:#EEEDFE,stroke:#534AB7,color:#3C3489
-    style T4 fill:#26215C,stroke:#534AB7,color:#EEEDFE
-```
-
-### Provider and harness architecture
-
-```mermaid
-flowchart TB
-    subgraph Models["🧠 Local models  (GGUF · MLX · safetensors)"]
-        M1["Gemma4-27B"]
-        M2["Llama-3.3-70B"]
-        M3["Phi-4-reasoning"]
-        M4["Mistral-Small-3.2-24B"]
-    end
-
-    subgraph Providers["⚙️  Inference providers  (OpenAI-compatible API)"]
-        PR1["mlx-lm\nlocalhost:8080"]
-        PR2["llama.cpp\nlocalhost:8080"]
-        PR3["LM Studio\nlocalhost:1234"]
-    end
-
-    subgraph Harnesses["🤖 Agentic harnesses"]
-        H1["Claude Code\nCLAUDE.md"]
-        H2["OpenCode\nAGENTS.md"]
-        H3["Codex CLI\nAGENTS.md"]
-    end
-
-    subgraph Bench["📊 Benchmark"]
-        B1["PROMPT.md\n(canonical)"]
-        B2["session_log.md"]
-        B3["pytest tests/"]
-        B4["scorecard.csv"]
-    end
-
-    M1 & M2 & M3 & M4 --> Providers
-    Providers --> |"REST /v1/chat/completions"| Harnesses
-    Harnesses --> |"delivers prompt"| B1
-    B1 --> B2
-    B2 --> B3
-    B3 --> B4
-
-    style Providers fill:#E1F5EE,stroke:#0F6E56,color:#085041
-    style Harnesses fill:#E6F1FB,stroke:#185FA5,color:#0C447C
-    style Bench fill:#EEEDFE,stroke:#534AB7,color:#3C3489
-    style Models fill:#F1EFE8,stroke:#888780,color:#444441
+    style A fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style H fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+    style F fill:#E6F1FB,stroke:#185FA5,color:#0C447C
 ```
 
 ---

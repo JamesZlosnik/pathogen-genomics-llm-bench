@@ -452,3 +452,55 @@ The model ID in `config.json` must exactly match the `id` returned by
 **Codex drops into OpenAI login screen**
 Always use `codex --oss --profile <your-local-profile>`. Without `--oss`, it defaults
 to the OpenAI auth flow.
+
+---
+
+## Architecture Overview
+
+How models, providers, harnesses, and the benchmark framework connect:
+
+```mermaid
+flowchart TB
+    subgraph Models["🧠 Local models  (GGUF · MLX · safetensors)"]
+        M1["Gemma4-27B"]
+        M2["Llama-3.3-70B"]
+        M3["Phi-4-reasoning"]
+        M4["Mistral-Small-3.2-24B"]
+    end
+
+    subgraph Providers["⚙️  Inference providers  (OpenAI-compatible API)"]
+        PR1["mlx-lm\nlocalhost:8080"]
+        PR2["llama.cpp\nlocalhost:8080"]
+        PR3["LM Studio\nlocalhost:1234"]
+    end
+
+    subgraph Harnesses["🤖 Agentic harnesses"]
+        H1["Claude Code\nCLAUDE.md"]
+        H2["OpenCode\nAGENTS.md"]
+        H3["Codex CLI\nAGENTS.md"]
+    end
+
+    subgraph Bench["📊 Benchmark"]
+        B1["PROMPT.md\n(canonical)"]
+        B2["session_log.md"]
+        B3["pytest tests/"]
+        B4["scorecard.csv"]
+    end
+
+    M1 & M2 & M3 & M4 --> Providers
+    Providers --> |"REST /v1/chat/completions"| Harnesses
+    Harnesses --> |"delivers prompt"| B1
+    B1 --> B2
+    B2 --> B3
+    B3 --> B4
+
+    style Providers fill:#E1F5EE,stroke:#0F6E56,color:#085041
+    style Harnesses fill:#E6F1FB,stroke:#185FA5,color:#0C447C
+    style Bench fill:#EEEDFE,stroke:#534AB7,color:#3C3489
+    style Models fill:#F1EFE8,stroke:#888780,color:#444441
+```
+
+The key insight: all three providers expose the same **OpenAI-compatible REST API**,
+so any harness can be pointed at any provider by changing a single base URL.
+The `CLAUDE.md` / `AGENTS.md` files in the working directory are picked up
+automatically by the harness — no extra configuration needed.

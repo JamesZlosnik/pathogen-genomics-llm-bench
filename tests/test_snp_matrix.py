@@ -8,11 +8,10 @@ Usage:
     pytest tests/test_snp_matrix.py --output-dir <path_to_run_output> -v
 """
 
-import os
-import subprocess
 import pytest
 import pandas as pd
 import numpy as np
+from pathlib import Path
 
 # ---------------------------------------------------------------------------
 # Fixtures / paths
@@ -22,40 +21,25 @@ FIXTURES = os.path.join(os.path.dirname(__file__), "fixtures", "expected_outputs
 EXPECTED_MATRIX = os.path.join(FIXTURES, "snp_matrix.csv")
 
 
-def pytest_addoption(parser):
-    parser.addoption(
-        "--output-dir",
-        action="store",
-        default=None,
-        help="Path to the model run's output directory",
-    )
-
-
-@pytest.fixture
-def output_dir(request):
-    d = request.config.getoption("--output-dir")
-    if d is None:
-        pytest.skip("No --output-dir provided")
-    return d
-
-
 @pytest.fixture
 def model_matrix(output_dir):
     """Find and load the model-produced SNP distance CSV."""
-    candidates = [f for f in os.listdir(output_dir) if f.endswith(".csv")]
+    candidates = [f.name for f in Path(output_dir).rglob("*.csv")]
     if not candidates:
         pytest.fail(f"No CSV file found in {output_dir}")
     # Prefer a file with 'distance' or 'snp' in the name
     preferred = [c for c in candidates if any(k in c.lower() for k in ("distance", "snp", "matrix"))]
-    path = os.path.join(output_dir, preferred[0] if preferred else candidates[0])
+    path = Path(output_dir) / (preferred[0] if preferred else candidates[0])
     df = pd.read_csv(path, index_col=0)
     return df
 
 
 @pytest.fixture
-def expected_matrix():
-    df = pd.read_csv(EXPECTED_MATRIX, index_col=0)
-    return df
+def expected_matrix(expected_dir):
+    path = expected_dir / "snp_distance_matrix.csv"
+    if not path.exists():
+        pytest.skip(f"Ground-truth matrix not found: {path}. Run generate_fixtures.py first.")
+    return pd.read_csv(path, index_col=0)
 
 
 # ---------------------------------------------------------------------------
@@ -146,7 +130,7 @@ def test_flagged_pairs_below_threshold(output_dir):
     if not candidates:
         pytest.skip("No flagged pairs file to check")
 
-    path = os.path.join(output_dir, candidates[0])
+    path = Path(output_dir) / candidates[0]
     sep = "\t" if path.endswith(".tsv") else ","
     df = pd.read_csv(path, sep=sep)
 
